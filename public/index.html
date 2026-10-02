@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Translation Desk</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">文A</span>
+      <div>
+        <h1>Translation Desk</h1>
+        <p class="tagline">Server-side AI translation with an honest offline demo.</p>
+      </div>
+    </div>
+    <span id="mode-badge" class="badge" role="status">Loading…</span>
+  </header>
+
+  <main class="layout">
+    <section id="demo-banner" class="banner" hidden>
+      <strong>Demo mode.</strong>
+      No AI provider is configured, so only phrases from the built-in phrase book can be translated
+      (<span id="demo-languages"></span>). Arbitrary text is rejected rather than guessed.
+      <div class="chips" id="demo-phrases" aria-label="Sample phrases"></div>
+    </section>
+
+    <form id="translate-form" class="card translator" novalidate>
+      <div class="lang-row">
+        <label class="field">
+          <span>From</span>
+          <select id="source-language" name="sourceLanguage"></select>
+        </label>
+        <button type="button" id="swap" class="icon-button" title="Swap languages" aria-label="Swap languages">⇄</button>
+        <label class="field">
+          <span>To</span>
+          <select id="target-language" name="targetLanguage"></select>
+        </label>
+      </div>
+
+      <div class="panes">
+        <div class="pane">
+          <label for="source-text" class="sr-only">Text to translate</label>
+          <textarea id="source-text" name="text" rows="8" placeholder="Type or paste text to translate…" required></textarea>
+          <div class="pane-footer">
+            <span id="char-count" class="muted">0 / 5000</span>
+            <button type="button" id="clear" class="link-button">Clear</button>
+          </div>
+        </div>
+        <div class="pane output-pane">
+          <div id="output" class="output" aria-live="polite" aria-label="Translation" tabindex="0">
+            <span class="placeholder">Translation will appear here.</span>
+          </div>
+          <div class="pane-footer">
+            <span id="result-meta" class="muted"></span>
+            <button type="button" id="copy" class="link-button" disabled>Copy</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="error" class="error" role="alert" hidden></div>
+
+      <div class="actions">
+        <label class="toggle"><input type="checkbox" id="save-history" checked> Save history in this browser</label>
+        <button type="submit" id="submit" class="primary">Translate <kbd>Ctrl</kbd>+<kbd>Enter</kbd></button>
+      </div>
+    </form>
+
+    <section class="card history" aria-labelledby="history-title">
+      <div class="history-head">
+        <h2 id="history-title">Recent translations</h2>
+        <button type="button" id="clear-history" class="link-button">Clear history</button>
+      </div>
+      <p class="muted small">Stored only in this browser's localStorage. Nothing is saved on the server.</p>
+      <ol id="history-list" class="history-list"></ol>
+      <p id="history-empty" class="muted">No translations yet.</p>
+    </section>
+  </main>
+
+  <footer class="footer muted small">
+    Translation requests are proxied by this server; API keys never reach the browser.
+  </footer>
+</body>
+</html>
